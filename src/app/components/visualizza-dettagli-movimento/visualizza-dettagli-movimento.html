@@ -1,1 +1,24 @@
-<p>visualizza-dettagli-movimento works!</p>
+<h2>Transaction Details</h2>
+
+<label>Account id: <input type="number" [(ngModel)]="accountId" /></label>
+<br />
+<label>Transaction id: <input type="number" [(ngModel)]="transactionId" /></label>
+<br />
+<button (click)="fetch()" [disabled]="loading">Load</button>
+
+<div *ngIf="loading">Loading...</div>
+<div *ngIf="message">{{message}}</div>
+
+<div *ngIf="transaction">
+	<h3>Transaction</h3>
+	<div><strong>ID:</strong> {{transaction.id}}</div>
+	<div><strong>Type:</strong> {{transaction.type}}</div>
+	<div><strong>Amount:</strong> {{transaction.amount}}</div>
+	<div><strong>Balance after:</strong> {{transaction.balance_after}}</div>
+	<div><strong>Created at:</strong> {{transaction.created_at}}</div>
+
+	<label>Descrizione: <input type="text" [(ngModel)]="transaction.description" /></label>
+	<br />
+	<button (click)="saveDescription()" [disabled]="loading">Save description</button>
+	<button (click)="deleteTransaction()" [disabled]="loading">Delete transaction</button>
+</div>

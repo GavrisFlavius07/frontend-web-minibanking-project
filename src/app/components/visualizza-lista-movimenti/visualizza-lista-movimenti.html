@@ -1,1 +1,23 @@
-<p>visualizza-lista-movimenti works!</p>
+<h2>Movements</h2>
+
+<label>Account id: <input type="number" [(ngModel)]="accountId" /></label>
+<button (click)="fetch()">Load</button>
+
+<div *ngIf="loading">Loading...</div>
+<div *ngIf="error">{{error}}</div>
+
+<table *ngIf="transactions?.length">
+	<thead>
+		<tr><th>ID</th><th>Type</th><th>Amount</th><th>Description</th><th>Balance After</th><th>Created At</th></tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let t of transactions">
+			<td>{{t.id}}</td>
+			<td>{{t.type}}</td>
+			<td>{{t.amount}}</td>
+			<td>{{t.description}}</td>
+			<td>{{t.balance_after}}</td>
+			<td>{{t.created_at}}</td>
+		</tr>
+	</tbody>
+</table>

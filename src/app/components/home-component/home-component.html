@@ -1,1 +1,15 @@
-<p>home-component works!</p>
+<h2>Accounts</h2>
+<table>
+	<thead>
+		<tr><th>ID</th><th>Owner</th><th>Tax ID</th><th>Currency</th><th></th></tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let a of accounts">
+			<td>{{a.id}}</td>
+			<td>{{a.owner_name}}</td>
+			<td>{{a.tax_id}}</td>
+			<td>{{a.id_currency}}</td>
+			<td><button (click)="viewTransactions(a)">View transactions</button></td>
+		</tr>
+	</tbody>
+</table>

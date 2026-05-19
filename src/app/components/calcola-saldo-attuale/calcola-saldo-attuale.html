@@ -1,1 +1,13 @@
-<p>calcola-saldo-attuale works!</p>
+<h2>Balance</h2>
+
+<label>Account id: <input type="number" [(ngModel)]="accountId" /></label>
+<button (click)="load()">Load balance</button>
+
+<div *ngIf="loading">Loading...</div>
+<div *ngIf="error">{{error}}</div>
+
+<div *ngIf="balance">
+	<pre>{{balance | json}}</pre>
+	<button (click)="convertFiat()">Convert to fiat</button>
+	<button (click)="convertCrypto()">Convert to crypto</button>
+</div>

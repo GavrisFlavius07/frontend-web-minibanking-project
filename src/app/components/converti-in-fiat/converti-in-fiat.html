@@ -1,1 +1,19 @@
-<p>converti-in-fiat works!</p>
+<h2>Convert to Fiat</h2>
+
+<label>Account id: <input type="number" [(ngModel)]="accountId" /></label>
+<br />
+<label>Target currency:
+	<select [(ngModel)]="targetCurrency">
+		<option value="">-- select --</option>
+		<option *ngFor="let c of currencies" [value]="c">{{c}}</option>
+	</select>
+</label>
+<br />
+<button (click)="convert()" [disabled]="loading">Convert</button>
+
+<div *ngIf="loading">Converting...</div>
+<div *ngIf="error">{{error}}</div>
+<div *ngIf="result">
+	<h3>Result</h3>
+	<pre>{{result | json}}</pre>
+</div>

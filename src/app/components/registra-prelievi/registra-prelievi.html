@@ -1,1 +1,12 @@
-<p>registra-prelievi works!</p>
+<h2>Withdrawal</h2>
+
+<label>Account id: <input type="number" [(ngModel)]="accountId" /></label>
+<br />
+<label>Amount: <input type="number" step="0.01" [(ngModel)]="amount" /></label>
+<br />
+<label>Description: <input type="text" [(ngModel)]="description" /></label>
+<br />
+<button (click)="submit()" [disabled]="loading">Submit</button>
+
+<div *ngIf="loading">Sending...</div>
+<div *ngIf="message">{{message}}</div>
