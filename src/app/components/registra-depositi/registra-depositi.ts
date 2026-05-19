@@ -26,7 +26,7 @@ export class RegistraDepositi {
     }
     this.loading = true;
     this.message = null;
-    this.api.deposit(this.accountId, { amount: this.amount, description: this.description }).subscribe({
+    this.api.deposit(this.accountId, this.amount, this.description).subscribe({
       next: (res: any) => {
         this.message = 'Deposit registrato';
         this.loading = false;

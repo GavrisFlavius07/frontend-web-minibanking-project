@@ -26,14 +26,14 @@ export class CalcolaSaldoAttuale {
   }
 
   convertFiat(to?: string) {
-    if (!this.accountId) return;
+    if (!this.accountId || !to) return;
     this.loading = true;
-    this.api.convertFiat(this.accountId, { to }).subscribe({ next: (res:any) => { this.balance = res; this.loading = false; }, error: (e:any) => { this.error = e?.message || 'Errore convert fiat'; this.loading = false; } });
+    this.api.convertFiat(this.accountId, to).subscribe({ next: (res:any) => { this.balance = res; this.loading = false; }, error: (e:any) => { this.error = e?.message || 'Errore convert fiat'; this.loading = false; } });
   }
 
   convertCrypto(to?: string) {
-    if (!this.accountId) return;
+    if (!this.accountId || !to) return;
     this.loading = true;
-    this.api.convertCrypto(this.accountId, { to }).subscribe({ next: (res:any) => { this.balance = res; this.loading = false; }, error: (e:any) => { this.error = e?.message || 'Errore convert crypto'; this.loading = false; } });
+    this.api.convertCrypto(this.accountId, to).subscribe({ next: (res:any) => { this.balance = res; this.loading = false; }, error: (e:any) => { this.error = e?.message || 'Errore convert crypto'; this.loading = false; } });
   }
 }

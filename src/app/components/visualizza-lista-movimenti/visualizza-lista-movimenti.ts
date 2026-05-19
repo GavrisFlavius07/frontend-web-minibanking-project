@@ -29,7 +29,7 @@ export class VisualizzaListaMovimenti implements OnInit {
     if (!this.accountId) return;
     this.loading = true;
     this.error = null;
-    this.api.getAccountTransactions(this.accountId).subscribe({
+    this.api.getTransactions(this.accountId).subscribe({
       next: (res: any) => {
         this.transactions = res || [];
         this.loading = false;

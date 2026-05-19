@@ -26,7 +26,7 @@ export class RegistraPrelievi {
     }
     this.loading = true;
     this.message = null;
-    this.api.withdraw(this.accountId, { amount: this.amount, description: this.description }).subscribe({
+    this.api.withdrawal(this.accountId, this.amount, this.description).subscribe({
       next: (res: any) => {
         this.message = 'Withdrawal registrato';
         this.loading = false;
