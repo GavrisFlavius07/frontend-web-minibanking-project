@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
-  private baseUrl = ''; // oppure environment.apiUrl
+  private baseUrl = '/api'; // Uses proxy configured in proxy.conf.json -> http://localhost
 
   constructor(private http: HttpClient) {}
 
