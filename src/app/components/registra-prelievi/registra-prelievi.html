@@ -1,12 +1,23 @@
-<h2>Withdrawal</h2>
+<div class="form-container">
+  <h2>Registra Prelievo</h2>
+  
+  <div class="form-group">
+    <label>ID Conto</label>
+    <input type="number" [(ngModel)]="accountId" placeholder="Inserisci ID conto" />
+  </div>
+  
+  <div class="form-group">
+    <label>Importo</label>
+    <input type="number" step="0.01" [(ngModel)]="amount" placeholder="0.00" />
+  </div>
+  
+  <div class="form-group">
+    <label>Descrizione (opzionale)</label>
+    <input type="text" [(ngModel)]="description" placeholder="Descrizione prelievo" />
+  </div>
+  
+  <button (click)="submit()" [disabled]="loading">Registra Prelievo</button>
 
-<label>Account id: <input type="number" [(ngModel)]="accountId" /></label>
-<br />
-<label>Amount: <input type="number" step="0.01" [(ngModel)]="amount" /></label>
-<br />
-<label>Description: <input type="text" [(ngModel)]="description" /></label>
-<br />
-<button (click)="submit()" [disabled]="loading">Submit</button>
-
-<div *ngIf="loading">Sending...</div>
-<div *ngIf="message">{{message}}</div>
+  <div *ngIf="loading" class="loading">Invio in corso...</div>
+  <div *ngIf="message" class="success">{{message}}</div>
+</div>

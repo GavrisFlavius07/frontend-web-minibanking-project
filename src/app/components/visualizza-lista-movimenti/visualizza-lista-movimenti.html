@@ -1,23 +1,38 @@
-<h2>Movements</h2>
+<div class="transactions-container">
+  <h2>Visualizza Movimenti</h2>
+  
+  <div class="form-group">
+    <label>ID Conto</label>
+    <input type="number" [(ngModel)]="accountId" placeholder="Inserisci ID conto" />
+  </div>
+  
+  <button (click)="fetch()">Carica Movimenti</button>
 
-<label>Account id: <input type="number" [(ngModel)]="accountId" /></label>
-<button (click)="fetch()">Load</button>
+  <div *ngIf="loading" class="loading">Caricamento in corso...</div>
+  <div *ngIf="error" class="error">{{error}}</div>
 
-<div *ngIf="loading">Loading...</div>
-<div *ngIf="error">{{error}}</div>
-
-<table *ngIf="transactions?.length">
-	<thead>
-		<tr><th>ID</th><th>Type</th><th>Amount</th><th>Description</th><th>Balance After</th><th>Created At</th></tr>
-	</thead>
-	<tbody>
-		<tr *ngFor="let t of transactions">
-			<td>{{t.id}}</td>
-			<td>{{t.type}}</td>
-			<td>{{t.amount}}</td>
-			<td>{{t.description}}</td>
-			<td>{{t.balance_after}}</td>
-			<td>{{t.created_at}}</td>
-		</tr>
-	</tbody>
-</table>
+  <div *ngIf="transactions?.length" class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Tipo</th>
+          <th>Importo</th>
+          <th>Descrizione</th>
+          <th>Saldo Dopo</th>
+          <th>Data</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let t of transactions">
+          <td><strong>{{t.id}}</strong></td>
+          <td><span class="type-badge" [class.deposit]="t.type === 'DEPOSIT'">{{t.type}}</span></td>
+          <td>{{t.amount | number:'1.2-2'}}</td>
+          <td>{{t.description || '-'}}</td>
+          <td>{{t.balance_after | number:'1.2-2'}}</td>
+          <td>{{t.created_at | date:'dd/MM/yy HH:mm'}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

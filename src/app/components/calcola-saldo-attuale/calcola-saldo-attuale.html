@@ -1,13 +1,25 @@
-<h2>Balance</h2>
+<div class="form-container">
+  <h2>Consultazione Saldo</h2>
+  
+  <div class="form-group">
+    <label>ID Conto</label>
+    <input type="number" [(ngModel)]="accountId" placeholder="Inserisci ID conto" />
+  </div>
+  
+  <button (click)="load()">Carica Saldo</button>
 
-<label>Account id: <input type="number" [(ngModel)]="accountId" /></label>
-<button (click)="load()">Load balance</button>
+  <div *ngIf="loading" class="loading">Caricamento in corso...</div>
+  <div *ngIf="error" class="error">{{error}}</div>
 
-<div *ngIf="loading">Loading...</div>
-<div *ngIf="error">{{error}}</div>
-
-<div *ngIf="balance">
-	<pre>{{balance | json}}</pre>
-	<button (click)="convertFiat()">Convert to fiat</button>
-	<button (click)="convertCrypto()">Convert to crypto</button>
+  <div *ngIf="balance" class="balance-result">
+    <h3>Saldo Attuale</h3>
+    <div class="balance-card">
+      <div class="balance-currency">{{balance.currency}}</div>
+      <div class="balance-amount">{{balance.balance | number:'1.2-2'}}</div>
+    </div>
+    <div class="action-buttons">
+      <button (click)="convertFiat()" class="secondary">Converti in Fiat</button>
+      <button (click)="convertCrypto()" class="secondary">Converti in Crypto</button>
+    </div>
+  </div>
 </div>

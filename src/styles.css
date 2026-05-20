@@ -1,1 +1,491 @@
-/* You can add global styles to this file, and also import other style files */
+/* ===================================
+   PROFESSIONAL BANKING THEME
+   Colors: #003da5 (Deep Blue) & #f59e0b (Gold)
+   ==================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+  color: #1f2937;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ===== NAVIGATION ===== */
+nav {
+  background: linear-gradient(135deg, #003da5 0%, #0051cc 100%);
+  padding: 1.25rem 2rem;
+  box-shadow: 0 4px 20px rgba(0, 61, 165, 0.15);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+nav a {
+  color: #ffffff;
+  text-decoration: none;
+  margin: 0 1.5rem;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  padding: 0.5rem 0;
+  border-bottom: 2px solid transparent;
+  display: inline-block;
+}
+
+nav a:hover {
+  color: #f59e0b;
+  border-bottom-color: #f59e0b;
+  transform: translateY(-2px);
+}
+
+/* ===== MAIN CONTAINER ===== */
+app-root > div {
+  max-width: 1200px;
+  margin: 3rem auto;
+  padding: 0 1.5rem;
+}
+
+/* ===== PAGE CONTAINER ===== */
+.page-container {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 3rem;
+  box-shadow: 0 10px 40px rgba(0, 61, 165, 0.08);
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== HEADINGS ===== */
+h1 {
+  color: #003da5;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+h2 {
+  color: #003da5;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  font-weight: 700;
+  border-bottom: 3px solid #f59e0b;
+  padding-bottom: 0.75rem;
+  display: inline-block;
+}
+
+h3 {
+  color: #003da5;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+/* ===== FORM ELEMENTS ===== */
+.form-group {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  color: #1f2937;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+select {
+  padding: 0.875rem 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  background-color: #ffffff;
+  color: #1f2937;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+select:focus {
+  outline: none;
+  border-color: #003da5;
+  box-shadow: 0 0 0 3px rgba(0, 61, 165, 0.1);
+  background-color: #f9fafb;
+}
+
+input[type="text"]:hover,
+input[type="number"]:hover,
+input[type="email"]:hover,
+input[type="password"]:hover,
+select:hover {
+  border-color: #003da5;
+  box-shadow: 0 4px 12px rgba(0, 61, 165, 0.08);
+}
+
+/* ===== BUTTONS ===== */
+button {
+  padding: 0.875rem 1.75rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-family: inherit;
+}
+
+/* Primary Button */
+button:not([disabled]) {
+  background: linear-gradient(135deg, #003da5 0%, #0051cc 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 61, 165, 0.3);
+}
+
+button:not([disabled]):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 61, 165, 0.4);
+  background: linear-gradient(135deg, #0051cc 0%, #003da5 100%);
+}
+
+button:not([disabled]):active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 61, 165, 0.3);
+}
+
+/* Disabled Button */
+button[disabled] {
+  background: #d1d5db;
+  color: #9ca3af;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Secondary Button */
+button.secondary {
+  background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+button.secondary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.4);
+}
+
+/* ===== TABLES ===== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 61, 165, 0.08);
+}
+
+thead {
+  background: linear-gradient(135deg, #003da5 0%, #0051cc 100%);
+  color: #ffffff;
+}
+
+th {
+  padding: 1.25rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+td {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #e5e7eb;
+  color: #374151;
+  font-size: 0.95rem;
+}
+
+tbody tr {
+  transition: all 0.2s ease;
+}
+
+tbody tr:hover {
+  background-color: #f9fafb;
+  box-shadow: 0 2px 8px rgba(0, 61, 165, 0.05);
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ===== MESSAGE & STATUS ===== */
+.loading,
+.message,
+.error,
+.success {
+  padding: 1.25rem;
+  border-radius: 8px;
+  margin: 1.5rem 0;
+  font-weight: 500;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.loading {
+  background: linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%);
+  color: #003da5;
+  border-left: 4px solid #003da5;
+}
+
+.message,
+.success {
+  background: linear-gradient(135deg, #d1fae5 0%, #d1f5e8 100%);
+  color: #065f46;
+  border-left: 4px solid #10b981;
+}
+
+.error {
+  background: linear-gradient(135deg, #fee2e2 0%, #fed7d7 100%);
+  color: #991b1b;
+  border-left: 4px solid #ef4444;
+}
+
+/* ===== DATA DISPLAY ===== */
+pre {
+  background: #f9fafb;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 1.5rem;
+  overflow-x: auto;
+  color: #374151;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+div > div:has(strong) {
+  padding: 1rem;
+  background: #f9fafb;
+  border-left: 4px solid #f59e0b;
+  margin-bottom: 0.75rem;
+  border-radius: 4px;
+}
+
+strong {
+  color: #003da5;
+  font-weight: 600;
+}
+
+/* ===== FORM CONTAINERS ===== */
+.form-container,
+.transactions-container,
+.transaction-detail-container {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 2.5rem;
+  box-shadow: 0 10px 40px rgba(0, 61, 165, 0.08);
+  margin-bottom: 2rem;
+}
+
+/* ===== BALANCE DISPLAY ===== */
+.balance-result {
+  margin-top: 2rem;
+  animation: slideIn 0.5s ease;
+}
+
+.balance-card {
+  background: linear-gradient(135deg, #003da5 0%, #0051cc 100%);
+  color: #ffffff;
+  padding: 2.5rem;
+  border-radius: 12px;
+  margin: 1.5rem 0;
+  box-shadow: 0 10px 40px rgba(0, 61, 165, 0.3);
+  text-align: center;
+}
+
+.balance-currency {
+  font-size: 1rem;
+  font-weight: 500;
+  opacity: 0.9;
+  margin-bottom: 0.5rem;
+}
+
+.balance-amount {
+  font-size: 3rem;
+  font-weight: 700;
+  letter-spacing: -1px;
+}
+
+/* ===== ACTION BUTTONS ===== */
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.action-buttons button {
+  flex: 1;
+  min-width: 200px;
+}
+
+/* ===== TRANSACTIONS TABLE ===== */
+.table-wrapper {
+  overflow-x: auto;
+  margin-top: 2rem;
+}
+
+.type-badge {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.type-badge {
+  background: linear-gradient(135deg, #fee2e2 0%, #fed7d7 100%);
+  color: #991b1b;
+}
+
+.type-badge.deposit {
+  background: linear-gradient(135deg, #d1fae5 0%, #d1f5e8 100%);
+  color: #065f46;
+}
+
+/* ===== TRANSACTION DETAILS ===== */
+.transaction-detail {
+  margin-top: 2rem;
+  animation: slideIn 0.3s ease;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: #f9fafb;
+  border-radius: 8px;
+  border: 2px solid #e5e7eb;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.detail-item strong {
+  color: #003da5;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detail-item span {
+  color: #374151;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.amount {
+  color: #10b981;
+  font-size: 1.25rem !important;
+  font-weight: 700 !important;
+}
+
+/* ===== CONVERSION RESULTS ===== */
+.conversion-result {
+  margin-top: 2rem;
+  animation: slideIn 0.3s ease;
+}
+
+.conversion-result pre {
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+  border: 2px solid #e5e7eb;
+  color: #1f2937;
+}
+
+/* ===== HOME CONTAINER ===== */
+.home-container {
+  animation: slideIn 0.3s ease;
+}
+
+.subtitle {
+  color: #6b7280;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  font-weight: 400;
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS ===== */
+@media (max-width: 768px) {
+  .form-container,
+  .transactions-container,
+  .transaction-detail-container {
+    padding: 1.5rem;
+  }
+
+  .balance-card {
+    padding: 2rem;
+  }
+
+  .balance-amount {
+    font-size: 2rem;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
+
+  .action-buttons button {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .detail-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+}

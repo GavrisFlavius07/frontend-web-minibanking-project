@@ -1,24 +1,55 @@
-<h2>Transaction Details</h2>
+<div class="transaction-detail-container">
+  <h2>Dettagli Movimento</h2>
 
-<label>Account id: <input type="number" [(ngModel)]="accountId" /></label>
-<br />
-<label>Transaction id: <input type="number" [(ngModel)]="transactionId" /></label>
-<br />
-<button (click)="fetch()" [disabled]="loading">Load</button>
+  <div class="form-group">
+    <label>ID Conto</label>
+    <input type="number" [(ngModel)]="accountId" placeholder="Inserisci ID conto" />
+  </div>
+  
+  <div class="form-group">
+    <label>ID Movimento</label>
+    <input type="number" [(ngModel)]="transactionId" placeholder="Inserisci ID movimento" />
+  </div>
+  
+  <button (click)="fetch()" [disabled]="loading">Carica Dettagli</button>
 
-<div *ngIf="loading">Loading...</div>
-<div *ngIf="message">{{message}}</div>
+  <div *ngIf="loading" class="loading">Caricamento in corso...</div>
+  <div *ngIf="message" class="message">{{message}}</div>
 
-<div *ngIf="transaction">
-	<h3>Transaction</h3>
-	<div><strong>ID:</strong> {{transaction.id}}</div>
-	<div><strong>Type:</strong> {{transaction.type}}</div>
-	<div><strong>Amount:</strong> {{transaction.amount}}</div>
-	<div><strong>Balance after:</strong> {{transaction.balance_after}}</div>
-	<div><strong>Created at:</strong> {{transaction.created_at}}</div>
+  <div *ngIf="transaction" class="transaction-detail">
+    <h3>Informazioni Movimento</h3>
+    
+    <div class="detail-grid">
+      <div class="detail-item">
+        <strong>ID Movimento:</strong>
+        <span>{{transaction.id}}</span>
+      </div>
+      <div class="detail-item">
+        <strong>Tipo:</strong>
+        <span class="type-badge" [class.deposit]="transaction.type === 'DEPOSIT'">{{transaction.type}}</span>
+      </div>
+      <div class="detail-item">
+        <strong>Importo:</strong>
+        <span class="amount">{{transaction.amount | number:'1.2-2'}}</span>
+      </div>
+      <div class="detail-item">
+        <strong>Saldo Successivo:</strong>
+        <span>{{transaction.balance_after | number:'1.2-2'}}</span>
+      </div>
+      <div class="detail-item">
+        <strong>Data:</strong>
+        <span>{{transaction.created_at | date:'dd/MM/yyyy HH:mm:ss'}}</span>
+      </div>
+    </div>
 
-	<label>Descrizione: <input type="text" [(ngModel)]="transaction.description" /></label>
-	<br />
-	<button (click)="saveDescription()" [disabled]="loading">Save description</button>
-	<button (click)="deleteTransaction()" [disabled]="loading">Delete transaction</button>
+    <div class="form-group">
+      <label>Descrizione</label>
+      <input type="text" [(ngModel)]="transaction.description" placeholder="Aggiungi descrizione" />
+    </div>
+    
+    <div class="action-buttons">
+      <button (click)="saveDescription()" [disabled]="loading">Salva Descrizione</button>
+      <button (click)="deleteTransaction()" [disabled]="loading" class="secondary">Elimina Movimento</button>
+    </div>
+  </div>
 </div>

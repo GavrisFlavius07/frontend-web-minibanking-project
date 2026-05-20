@@ -1,19 +1,26 @@
-<h2>Convert to Crypto</h2>
+<div class="form-container">
+  <h2>Converti in Criptovaluta</h2>
 
-<label>Account id: <input type="number" [(ngModel)]="accountId" /></label>
-<br />
-<label>Target crypto:
-	<select [(ngModel)]="target">
-		<option value="">-- select --</option>
-		<option *ngFor="let c of currencies" [value]="c">{{c}}</option>
-	</select>
-</label>
-<br />
-<button (click)="convert()" [disabled]="loading">Convert</button>
+  <div class="form-group">
+    <label>ID Conto</label>
+    <input type="number" [(ngModel)]="accountId" placeholder="Inserisci ID conto" />
+  </div>
+  
+  <div class="form-group">
+    <label>Criptovaluta Destinazione</label>
+    <select [(ngModel)]="target">
+      <option value="">-- Seleziona crypto --</option>
+      <option *ngFor="let c of currencies" [value]="c">{{c}}</option>
+    </select>
+  </div>
+  
+  <button (click)="convert()" [disabled]="loading">Converti</button>
 
-<div *ngIf="loading">Converting...</div>
-<div *ngIf="error">{{error}}</div>
-<div *ngIf="result">
-	<h3>Result</h3>
-	<pre>{{result | json}}</pre>
+  <div *ngIf="loading" class="loading">Conversione in corso...</div>
+  <div *ngIf="error" class="error">{{error}}</div>
+  
+  <div *ngIf="result" class="conversion-result">
+    <h3>Risultato Conversione</h3>
+    <pre>{{result | json}}</pre>
+  </div>
 </div>
