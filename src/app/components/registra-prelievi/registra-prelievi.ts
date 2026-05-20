@@ -1,5 +1,5 @@
 
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
@@ -17,7 +17,7 @@ export class RegistraPrelievi {
   loading = false;
   message: string | null = null;
 
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService, private cdr: ChangeDetectorRef) {}
 
   submit() {
     if (!this.accountId || !this.amount || this.amount <= 0) {
@@ -30,10 +30,12 @@ export class RegistraPrelievi {
       next: (res: any) => {
         this.message = 'Withdrawal registrato';
         this.loading = false;
+        this.cdr.markForCheck();
       },
       error: (err: any) => {
         this.message = err?.message || 'Errore durante il withdrawal';
         this.loading = false;
+        this.cdr.markForCheck();
       }
     });
   }

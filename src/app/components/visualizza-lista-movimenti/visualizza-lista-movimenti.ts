@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
@@ -15,7 +15,7 @@ export class VisualizzaListaMovimenti implements OnInit {
   loading = false;
   error: string | null = null;
 
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     const stored = localStorage.getItem('selected_account');
@@ -33,10 +33,12 @@ export class VisualizzaListaMovimenti implements OnInit {
       next: (res: any) => {
         this.transactions = res || [];
         this.loading = false;
+        this.cdr.markForCheck();
       },
       error: (err: any) => {
         this.error = err?.message || 'Errore fetching transactions';
         this.loading = false;
+        this.cdr.markForCheck();
       }
     });
   }

@@ -1,5 +1,5 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
@@ -21,7 +21,7 @@ export class ConvertiInCrypto implements OnInit {
   loading = false;
   error: string | null = null;
 
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.api.getCurrencies().subscribe({ 
@@ -33,8 +33,9 @@ export class ConvertiInCrypto implements OnInit {
         if (this.currencies.length === 0) {
           this.currencies = this.SUPPORTED_CRYPTOS;
         }
+        this.cdr.markForCheck();
       }, 
-      error: () => { this.currencies = this.SUPPORTED_CRYPTOS; } 
+      error: () => { this.currencies = this.SUPPORTED_CRYPTOS; this.cdr.markForCheck(); } 
     });
   }
 
@@ -46,14 +47,15 @@ export class ConvertiInCrypto implements OnInit {
     }
     this.loading = true; this.error = null; this.result = null;
     this.api.convertCrypto(this.accountId, this.target).subscribe({ 
-      next: (res:any) => { this.result = res; this.loading = false; }, 
+      next: (res:any) => { this.result = res; this.loading = false; this.cdr.markForCheck(); }, 
       error: (e:any) => { 
         // Try to extract API error message
         let errorMsg = 'Conversion error';
         if (e?.error?.error) errorMsg = e.error.error;
         if (e?.error?.msg) errorMsg = e.error.msg;
         this.error = errorMsg;
-        this.loading = false; 
+        this.loading = false;
+        this.cdr.markForCheck();
       } 
     });
   }

@@ -1,5 +1,5 @@
 
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
@@ -17,24 +17,24 @@ export class VisualizzaDettagliMovimento {
   loading = false;
   message: string | null = null;
 
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService, private cdr: ChangeDetectorRef) {}
 
   fetch() {
     if (!this.accountId || !this.transactionId) { this.message = 'Inserisci account e transaction id'; return; }
     this.loading = true; this.message = null; this.transaction = null;
-    this.api.getTransaction(this.accountId, this.transactionId).subscribe({ next: (res:any) => { this.transaction = res; this.loading = false; }, error: (e:any) => { this.message = e?.message || 'Errore fetching transaction'; this.loading = false; } });
+    this.api.getTransaction(this.accountId, this.transactionId).subscribe({ next: (res:any) => { this.transaction = res; this.loading = false; this.cdr.markForCheck(); }, error: (e:any) => { this.message = e?.message || 'Errore fetching transaction'; this.loading = false; this.cdr.markForCheck(); } });
   }
 
   saveDescription() {
     if (!this.accountId || !this.transactionId || this.transaction == null) return;
     this.loading = true; this.message = null;
-    this.api.editDescription(this.accountId, this.transactionId, this.transaction.description || '').subscribe({ next: () => { this.message = 'Descrizione aggiornata'; this.loading = false; }, error: (e:any) => { this.message = e?.message || 'Errore update'; this.loading = false; } });
+    this.api.editDescription(this.accountId, this.transactionId, this.transaction.description || '').subscribe({ next: () => { this.message = 'Descrizione aggiornata'; this.loading = false; this.cdr.markForCheck(); }, error: (e:any) => { this.message = e?.message || 'Errore update'; this.loading = false; this.cdr.markForCheck(); } });
   }
 
   deleteTransaction() {
     if (!this.accountId || !this.transactionId) return;
     if (!confirm('Delete transaction?')) return;
     this.loading = true; this.message = null;
-    this.api.deleteTransaction(this.accountId, this.transactionId).subscribe({ next: () => { this.message = 'Transaction eliminata'; this.transaction = null; this.loading = false; }, error: (e:any) => { this.message = e?.message || 'Errore delete'; this.loading = false; } });
+    this.api.deleteTransaction(this.accountId, this.transactionId).subscribe({ next: () => { this.message = 'Transaction eliminata'; this.transaction = null; this.loading = false; this.cdr.markForCheck(); }, error: (e:any) => { this.message = e?.message || 'Errore delete'; this.loading = false; this.cdr.markForCheck(); } });
   }
 }
