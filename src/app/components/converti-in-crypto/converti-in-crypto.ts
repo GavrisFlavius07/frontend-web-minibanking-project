@@ -18,6 +18,7 @@ export class ConvertiInCrypto implements OnInit {
   target: string = '';
   currencies: string[] = [];
   result: any = null;
+  resultDisplay: string | null = null;
   loading = false;
   error: string | null = null;
 
@@ -47,16 +48,52 @@ export class ConvertiInCrypto implements OnInit {
     }
     this.loading = true; this.error = null; this.result = null;
     this.api.convertCrypto(this.accountId, this.target).subscribe({ 
-      next: (res:any) => { this.result = res; this.loading = false; this.cdr.markForCheck(); }, 
+      next: (res:any) => { this.result = res; this.resultDisplay = this.formatConversionResult(res, this.target); this.loading = false; this.cdr.markForCheck(); }, 
       error: (e:any) => { 
         // Try to extract API error message
         let errorMsg = 'Conversion error';
         if (e?.error?.error) errorMsg = e.error.error;
         if (e?.error?.msg) errorMsg = e.error.msg;
         this.error = errorMsg;
+        this.resultDisplay = null;
         this.loading = false;
         this.cdr.markForCheck();
       } 
     });
+  }
+
+  private formatConversionResult(res: any, targetSymbol: string) {
+    // Common response shapes handled gracefully
+    try {
+      if (!res) return '';
+      // case: { original: { amount, currency }, converted: { amount, currency } }
+      if (res.original && res.converted) return `${this.fmt(res.original.amount)} ${res.original.currency} → ${this.fmt(res.converted.amount)} ${res.converted.currency}`;
+      // case: { from: {...}, to: {...} }
+      if (res.from && res.to) return `${this.fmt(res.from.amount)} ${res.from.currency || ''} → ${this.fmt(res.to.amount)} ${res.to.currency || targetSymbol}`;
+      // case: { balance, currency, converted: { amount, currency } }
+      if ((res.balance || res.amount) && (res.converted || res.to)) {
+        const a = res.balance ?? res.amount;
+        const ca = res.currency ?? res.fromCurrency ?? '';
+        const b = (res.converted && (res.converted.amount ?? res.converted.balance)) ?? (res.to && (res.to.amount ?? res.to.balance));
+        const cb = (res.converted && (res.converted.currency)) ?? (res.to && res.to.currency) ?? targetSymbol;
+        if (b != null) return `${this.fmt(a)} ${ca} → ${this.fmt(b)} ${cb}`;
+      }
+      // fallback: try to find two numeric values and a currency string
+      const vals = Object.values(res ?? {}).flatMap((v: any) => (typeof v === 'object' && v != null ? Object.values(v) : [v]));
+      const nums = vals.filter(v => typeof v === 'number');
+      const strs = vals.filter(v => typeof v === 'string' && /[A-Za-z]{2,5}/.test(v));
+      if (nums.length >= 2) return `${this.fmt(nums[0])} ${strs[0] ?? ''} → ${this.fmt(nums[1])} ${strs[1] ?? targetSymbol}`;
+      // last resort: show a minimal JSON-ish string but compact
+      return typeof res === 'string' ? res : JSON.stringify(res);
+    } catch (e) {
+      return JSON.stringify(res);
+    }
+  }
+
+  private fmt(v: any) {
+    if (v == null) return '';
+    const n = Number(v);
+    if (isNaN(n)) return String(v);
+    return n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 8 });
   }
 }

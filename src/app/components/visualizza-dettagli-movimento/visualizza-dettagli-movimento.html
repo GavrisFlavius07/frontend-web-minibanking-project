@@ -8,13 +8,19 @@
   
   <div class="form-group">
     <label>ID Movimento</label>
-    <input type="number" [(ngModel)]="transactionId" placeholder="Inserisci ID movimento" />
+    <div style="display:flex; gap:8px; align-items:center;">
+      <select [(ngModel)]="transactionId">
+        <option *ngIf="!transactionOptions?.length" value="">-- Nessun movimento ultimo disponibile --</option>
+        <option *ngFor="let id of transactionOptions" [value]="id">{{id}} (ultimo)</option>
+      </select>
+      <button (click)="loadLatestTransaction()" [disabled]="loading">Carica ultimo</button>
+    </div>
   </div>
   
   <button (click)="fetch()" [disabled]="loading">Carica Dettagli</button>
 
   <div *ngIf="loading" class="loading">Caricamento in corso...</div>
-  <div *ngIf="message" class="message">{{message}}</div>
+  <div *ngIf="message" [ngClass]="{ 'success': messageType === 'success', 'error': messageType === 'error' }">{{message}}</div>
 
   <div *ngIf="transaction" class="transaction-detail">
     <h3>Informazioni Movimento</h3>

@@ -19,5 +19,5 @@
   <button (click)="submit()" [disabled]="loading">Registra Prelievo</button>
 
   <div *ngIf="loading" class="loading">Invio in corso...</div>
-  <div *ngIf="message" class="success">{{message}}</div>
+  <div *ngIf="message" [ngClass]="{ 'success': messageType === 'success', 'error': messageType === 'error' }">{{message}}</div>
 </div>

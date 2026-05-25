@@ -16,6 +16,7 @@ export class RegistraPrelievi {
   description = '';
   loading = false;
   message: string | null = null;
+  messageType: 'success' | 'error' | null = null;
 
   constructor(private api: ApiService, private cdr: ChangeDetectorRef) {}
 
@@ -29,11 +30,20 @@ export class RegistraPrelievi {
     this.api.withdrawal(this.accountId, this.amount, this.description).subscribe({
       next: (res: any) => {
         this.message = 'Withdrawal registrato';
+        this.messageType = 'success';
         this.loading = false;
         this.cdr.markForCheck();
       },
       error: (err: any) => {
-        this.message = err?.message || 'Errore durante il withdrawal';
+        // Map common HTTP errors to friendly messages
+        let msg = 'errore: si è verificato un errore';
+        if (err?.status === 400) msg = 'errore: saldo insufficiente';
+        else if (err?.status === 404) msg = 'errore: conto non trovato';
+        else if (err?.status === 409) msg = 'errore: richiesta in conflitto';
+        else if (err?.error?.message) msg = err.error.message;
+        else if (err?.error?.error) msg = err.error.error;
+        this.message = msg;
+        this.messageType = 'error';
         this.loading = false;
         this.cdr.markForCheck();
       }

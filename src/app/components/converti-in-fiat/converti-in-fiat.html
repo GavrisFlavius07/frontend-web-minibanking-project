@@ -19,8 +19,10 @@
   <div *ngIf="loading" class="loading">Conversione in corso...</div>
   <div *ngIf="error" class="error">{{error}}</div>
   
-  <div *ngIf="result" class="conversion-result">
+  <div *ngIf="resultDisplay" class="conversion-result">
     <h3>Risultato Conversione</h3>
-    <pre>{{result | json}}</pre>
+    <div class="conversion-output">
+      <h4>{{resultDisplay}}</h4>
+    </div>
   </div>
 </div>
