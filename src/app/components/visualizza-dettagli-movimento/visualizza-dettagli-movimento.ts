@@ -25,13 +25,21 @@ export class VisualizzaDettagliMovimento {
   fetch() {
     if (!this.accountId || !this.transactionId) { this.message = 'Inserisci account e transaction id'; this.messageType = 'error'; return; }
     this.loading = true; this.message = null; this.transaction = null;
-    this.api.getTransaction(this.accountId, this.transactionId).subscribe({ next: (res:any) => { this.transaction = res; this.loading = false; this.cdr.markForCheck(); }, error: (e:any) => { this.message = e?.message || 'Errore fetching transaction'; this.messageType = 'error'; this.loading = false; this.cdr.markForCheck(); } });
+    this.api.getTransaction(this.accountId, this.transactionId).subscribe({ next: (res:any) => { 
+      this.transaction = res; this.loading = false; this.cdr.markForCheck(); 
+    }, error: (e:any) => {
+     this.message = e?.message || 'Errore fetching transaction'; this.messageType = 'error'; this.loading = false; this.cdr.markForCheck(); 
+    } });
   }
 
   saveDescription() {
     if (!this.accountId || !this.transactionId || this.transaction == null) return;
     this.loading = true; this.message = null;
-    this.api.editDescription(this.accountId, this.transactionId, this.transaction.description || '').subscribe({ next: () => { this.message = 'Descrizione aggiornata'; this.messageType = 'success'; this.loading = false; this.cdr.markForCheck(); }, error: (e:any) => { this.message = e?.message || 'Errore update'; this.messageType = 'error'; this.loading = false; this.cdr.markForCheck(); } });
+    this.api.editDescription(this.accountId, this.transactionId, this.transaction.description || '').subscribe({ next: () => {
+       this.message = 'Descrizione aggiornata'; this.messageType = 'success'; this.loading = false; this.cdr.markForCheck(); 
+      }, error: (e:any) => {
+         this.message = e?.message || 'Errore update'; this.messageType = 'error'; this.loading = false; this.cdr.markForCheck(); 
+        } });
   }
 
   deleteTransaction() {
@@ -44,7 +52,10 @@ export class VisualizzaDettagliMovimento {
     }
     if (!confirm('Delete transaction?')) return;
     this.loading = true; this.message = null;
-    this.api.deleteTransaction(this.accountId, this.transactionId).subscribe({ next: () => { this.message = 'Transaction eliminata'; this.messageType = 'success'; this.transaction = null; this.loading = false; this.cdr.markForCheck(); }, error: (e:any) => { this.message = e?.message || 'Errore delete'; this.messageType = 'error'; this.loading = false; this.cdr.markForCheck(); } });
+    this.api.deleteTransaction(this.accountId, this.transactionId).subscribe({ next: () => {
+       this.message = 'Transaction eliminata'; this.messageType = 'success'; this.transaction = null; this.loading = false; this.cdr.markForCheck(); 
+      }, error: (e:any) => { this.message = e?.message || 'Errore delete'; this.messageType = 'error'; this.loading = false; this.cdr.markForCheck(); 
+      } });
   }
 
   loadLatestTransaction() {

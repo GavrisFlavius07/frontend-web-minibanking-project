@@ -22,13 +22,21 @@ export class ConvertiInFiat implements OnInit {
   constructor(private api: ApiService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    this.api.getCurrencies().subscribe({ next: (res: any) => { this.currencies = Array.isArray(res) ? res.map((r:any)=> r.name ?? r) : []; this.cdr.markForCheck(); }, error: () => { this.currencies = []; this.cdr.markForCheck(); } });
+    this.api.getCurrencies().subscribe({ next: (res: any) => { 
+      this.currencies = Array.isArray(res) ? res.map((r:any)=> r.name ?? r) : []; this.cdr.markForCheck();
+     }, error: () => { 
+      this.currencies = []; this.cdr.markForCheck(); 
+    } });
   }
 
   convert() {
     if (!this.accountId || !this.targetCurrency) { this.error = 'Select account and target currency'; return; }
     this.loading = true; this.error = null; this.result = null;
-    this.api.convertFiat(this.accountId, this.targetCurrency).subscribe({ next: (res:any) => { this.result = res; this.resultDisplay = this.formatConversionResult(res, this.targetCurrency); this.loading = false; this.cdr.markForCheck(); }, error: (e:any) => { this.error = e?.message || 'Conversion error'; this.resultDisplay = null; this.loading = false; this.cdr.markForCheck(); } });
+    this.api.convertFiat(this.accountId, this.targetCurrency).subscribe({ next: (res:any) => { 
+      this.result = res; this.resultDisplay = this.formatConversionResult(res, this.targetCurrency); 
+      this.loading = false; this.cdr.markForCheck(); 
+    }, error: (e:any) => { 
+      this.error = e?.message || 'Conversion error'; this.resultDisplay = null; this.loading = false; this.cdr.markForCheck(); } });
   }
 
   private formatConversionResult(res: any, targetSymbol: string) {

@@ -17,7 +17,10 @@ export class HomeComponent implements OnInit {
   constructor(private api: ApiService, private router: Router, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    this.api.getAccounts().subscribe({ next: (res: any) => { this.accounts = res || []; this.cdr.markForCheck(); }, error: () => { this.accounts = []; this.cdr.markForCheck(); } });
+    this.api.getAccounts().subscribe({ next: (res: any) => {
+       this.accounts = res || []; this.cdr.markForCheck(); 
+      }, error: () => { this.accounts = []; this.cdr.markForCheck();
+       } });
   }
 
   viewTransactions(account: any) {
