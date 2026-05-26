@@ -27,10 +27,10 @@ export class ConvertiInCrypto implements OnInit {
   ngOnInit(): void {
     this.api.getCurrencies().subscribe({ 
       next: (res:any) => { 
-        const allCurrencies = Array.isArray(res) ? res.map((r:any)=> r.name ?? r) : [];
-        // Filter to show only supported cryptocurrencies
+        const allCurrencies = Array.isArray(res)
+          ? res.map((r:any)=> this.normalizeCurrency(r?.name ?? r))
+          : [];
         this.currencies = allCurrencies.filter(c => this.SUPPORTED_CRYPTOS.includes(c));
-        // If no currencies match, show all supported as suggestions
         if (this.currencies.length === 0) {
           this.currencies = this.SUPPORTED_CRYPTOS;
         }
@@ -41,20 +41,39 @@ export class ConvertiInCrypto implements OnInit {
   }
 
   convert() {
-    if (!this.accountId || !this.target) { this.error = 'Select account and target'; return; }
-    if (!this.SUPPORTED_CRYPTOS.includes(this.target)) { 
-      this.error = `${this.target} is not a supported cryptocurrency. Supported: ${this.SUPPORTED_CRYPTOS.join(', ')}`; 
-      return; 
+    this.error = null;
+    this.resultDisplay = null;
+
+    const accountId = Number(this.accountId);
+    const target = this.normalizeCurrency(this.target);
+
+    if (!accountId || isNaN(accountId) || accountId <= 0) {
+      this.error = 'Inserisci un ID conto valido.';
+      return;
     }
-    this.loading = true; this.error = null; this.result = null;
-    this.api.convertCrypto(this.accountId, this.target).subscribe({ 
-      next: (res:any) => { this.result = res; this.resultDisplay = this.formatConversionResult(res, this.target); this.loading = false; this.cdr.markForCheck(); }, 
-      error: (e:any) => { 
-        // Try to extract API error message
-        let errorMsg = 'Conversion error';
-        if (e?.error?.error) errorMsg = e.error.error;
-        if (e?.error?.msg) errorMsg = e.error.msg;
-        this.error = errorMsg;
+
+    if (!target) {
+      this.error = 'Seleziona una criptovaluta di destinazione.';
+      return;
+    }
+
+    if (!this.isSupportedCrypto(target)) {
+      this.error = `${target} non è una criptovaluta supportata. Supportate: ${this.SUPPORTED_CRYPTOS.join(', ')}`;
+      return;
+    }
+
+    this.loading = true;
+    this.result = null;
+
+    this.api.convertCrypto(accountId, target).subscribe({ 
+      next: (res:any) => {
+        this.result = res;
+        this.resultDisplay = this.formatConversionResult(res, target);
+        this.loading = false;
+        this.cdr.markForCheck();
+      }, 
+      error: (e:any) => {
+        this.error = this.extractApiError(e) || 'Errore durante la conversione.';
         this.resultDisplay = null;
         this.loading = false;
         this.cdr.markForCheck();
@@ -66,6 +85,9 @@ export class ConvertiInCrypto implements OnInit {
     // Common response shapes handled gracefully
     try {
       if (!res) return '';
+      if (res.from_currency && res.to_currency && (res.original_balance != null || res.converted_balance != null)) {
+        return `${this.fmt(res.original_balance)} ${res.from_currency} → ${this.fmt(res.converted_balance)} ${res.to_currency}`;
+      }
       // case: { original: { amount, currency }, converted: { amount, currency } }
       if (res.original && res.converted) return `${this.fmt(res.original.amount)} ${res.original.currency} → ${this.fmt(res.converted.amount)} ${res.converted.currency}`;
       // case: { from: {...}, to: {...} }
@@ -90,9 +112,38 @@ export class ConvertiInCrypto implements OnInit {
     }
   }
 
+  private normalizeCurrency(value: any): string {
+    const text = String(value ?? '').trim();
+    return text ? text.toUpperCase() : '';
+  }
+
+  private isSupportedCrypto(value: string): boolean {
+    return this.SUPPORTED_CRYPTOS.includes(this.normalizeCurrency(value));
+  }
+
+  private extractApiError(e: any): string | null {
+    if (!e) return null;
+    if (typeof e === 'string') return e;
+    if (e?.error?.message) return e.error.message;
+    if (e?.error?.error) return e.error.error;
+    if (e?.error?.msg) return e.error.msg;
+    if (e?.message) return e.message;
+    return null;
+  }
+
   private fmt(v: any) {
     if (v == null) return '';
-    const n = Number(v);
+    let candidate: any = v;
+    if (typeof candidate === 'string') {
+      const hasComma = candidate.includes(',');
+      const hasDot = candidate.includes('.');
+      if (hasComma && hasDot) {
+        candidate = candidate.replace(/\./g, '').replace(',', '.');
+      } else if (hasComma) {
+        candidate = candidate.replace(',', '.');
+      }
+    }
+    const n = Number(candidate);
     if (isNaN(n)) return String(v);
     return n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 8 });
   }

@@ -34,6 +34,9 @@ export class ConvertiInFiat implements OnInit {
   private formatConversionResult(res: any, targetSymbol: string) {
     try {
       if (!res) return '';
+      if (res.from_currency && res.to_currency && (res.original_balance != null || res.converted_balance != null)) {
+        return `${this.fmt(res.original_balance)} ${res.from_currency} → ${this.fmt(res.converted_balance)} ${res.to_currency}`;
+      }
       if (res.original && res.converted) return `${this.fmt(res.original.amount)} ${res.original.currency} → ${this.fmt(res.converted.amount)} ${res.converted.currency}`;
       if (res.from && res.to) return `${this.fmt(res.from.amount)} ${res.from.currency || ''} → ${this.fmt(res.to.amount)} ${res.to.currency || targetSymbol}`;
       if ((res.balance || res.amount) && (res.converted || res.to)) {
@@ -55,7 +58,17 @@ export class ConvertiInFiat implements OnInit {
 
   private fmt(v: any) {
     if (v == null) return '';
-    const n = Number(v);
+    let candidate: any = v;
+    if (typeof candidate === 'string') {
+      const hasComma = candidate.includes(',');
+      const hasDot = candidate.includes('.');
+      if (hasComma && hasDot) {
+        candidate = candidate.replace(/\./g, '').replace(',', '.');
+      } else if (hasComma) {
+        candidate = candidate.replace(',', '.');
+      }
+    }
+    const n = Number(candidate);
     if (isNaN(n)) return String(v);
     return n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 8 });
   }
