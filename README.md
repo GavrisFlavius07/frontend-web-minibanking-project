@@ -68,12 +68,3 @@ Gli artefatti compilati saranno generati nella cartella `dist/`.
 **Note sul backend**
 - Se usi un'API separata, verifica `proxy.conf.json` per inoltrare le richieste durante lo sviluppo.
 - Vedi `BACKEND_SETUP.md` per istruzioni su come avviare il backend di prova (endpoints, porte e richieste supportate).
-
-**Contribuire**
-- Segnala issue o apri una pull request per miglioramenti e fix.
-- Mantieni il codice modulare e aggiungi test per le nuove funzionalità.
-
-Se vuoi, posso generare anche una breve guida per il deploy o aggiungere esempi di chiamate API per i backend più comuni.
-
----
-Aggiornato per presentare in modo chiaro le funzionalità e le modalità d'uso dell'applicazione.
