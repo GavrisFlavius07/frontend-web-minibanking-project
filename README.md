@@ -1,59 +1,79 @@
-# HomeBankingFrontend
+# MiniBanking — Frontend Web
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.3.
+Questa applicazione è il front-end di una piccola demo di home banking: un'interfaccia web pensata per gestire un conto utente in modo semplice e didattico. Permette di registrare depositi e prelievi, visualizzare la lista dei movimenti, consultare i dettagli di ogni transazione, calcolare il saldo corrente e convertire importi tra valuta fiat e criptovalute.
 
-## Development server
+**Per chi è pensata:** sviluppatori, studenti o chiunque desideri esplorare un esempio pratico di applicazione bancaria leggera costruita con Angular.
 
-To start a local development server, run:
+**Punti di forza:** interfaccia chiara, componenti separati per ogni funzionalità e un servizio API centralizzato per comunicare con il backend.
+
+**Caratteristiche principali**
+- **Lista movimenti:** visualizza cronologicamente tutte le operazioni (depositi/prelievi).
+- **Dettaglio movimento:** mostra informazioni estese su una singola transazione.
+- **Registra deposito:** form semplice per aggiungere un nuovo accredito.
+- **Registra prelievo:** form per registrare un prelievo dal conto.
+- **Calcolo saldo:** calcola il saldo corrente a partire dai movimenti registrati.
+- **Conversione valute:** convertitore da/verso criptovalute e valute fiat.
+- **Comunicazione API:** tutte le operazioni lato dati passano attraverso un servizio API centralizzato.
+
+**Tecnologie**
+- **Frontend:** Angular (CLI) — progetto generato con Angular CLI.
+- **Testing:** configurazione per test unitari.
+
+**Installazione e avvio (sviluppo)**
+1. Assicurati di avere installati `Node.js` e `npm`.
+2. Installa le dipendenze:
 
 ```bash
+npm install
+```
+
+3. Avvia il server di sviluppo:
+
+```bash
+npm start
+# oppure
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+4. Apri il browser su `http://localhost:4200/`.
 
-## Code scaffolding
+Nota: il progetto include `proxy.conf.json` per inoltrare le chiamate verso un backend di sviluppo. Consulta il file `BACKEND_SETUP.md` nella root del repository per le istruzioni sulla configurazione del backend.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+**Struttura del progetto (panoramica)**
+- **`src/app/components/visualizza-lista-movimenti/`**: componente che mostra l'elenco delle transazioni.
+- **`src/app/components/visualizza-dettagli-movimento/`**: visualizza i dettagli di una singola operazione.
+- **`src/app/components/registra-depositi/`**: form e logica per registrare depositi.
+- **`src/app/components/registra-prelievi/`**: form e logica per registrare prelievi.
+- **`src/app/components/calcola-saldo-attuale/`**: componente che calcola e mostra il saldo corrente.
+- **`src/app/components/converti-in-crypto/`** e **`converti-in-fiat/`**: strumenti per la conversione di importi tra valute.
+- **`src/app/services/api.service.ts`**: servizio centrale che gestisce le chiamate HTTP verso il backend.
 
-```bash
-ng generate component component-name
-```
+Questa suddivisione mantiene la UI modulare e facilita lo sviluppo e i test delle singole funzionalità.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+**Esecuzione dei test**
+Per eseguire i test unitari:
 
 ```bash
-ng build
+npm test
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+**Build per produzione**
 
 ```bash
-ng test
+ng build --configuration production
 ```
 
-## Running end-to-end tests
+Gli artefatti compilati saranno generati nella cartella `dist/`.
 
-For end-to-end (e2e) testing, run:
+**Note sul backend**
+- Se usi un'API separata, verifica `proxy.conf.json` per inoltrare le richieste durante lo sviluppo.
+- Vedi `BACKEND_SETUP.md` per istruzioni su come avviare il backend di prova (endpoints, porte e richieste supportate).
 
-```bash
-ng e2e
-```
+**Contribuire**
+- Segnala issue o apri una pull request per miglioramenti e fix.
+- Mantieni il codice modulare e aggiungi test per le nuove funzionalità.
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Se vuoi, posso generare anche una breve guida per il deploy o aggiungere esempi di chiamate API per i backend più comuni.
 
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+---
+Aggiornato per presentare in modo chiaro le funzionalità e le modalità d'uso dell'applicazione.
